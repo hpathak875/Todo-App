@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import TodoList from "./components/TodoList/TodoList.jsx";
+import InputBox from "./components/InputBox/Inputbox.jsx";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends Component {
+    state = {
+      todos: [
+      ],
+    };
+  
+    deleteTodo = (id) => {
+      let updatedTodos = this.state.todos.filter(function (todoObj) {
+        if (todoObj.id === id) {
+          return false;
+        }
+        return true;
+      });
+      
+      this.setState({
+        todos: updatedTodos,
+      });
+    };
+  
+    addTodo = (todo) => {
+      let updatedTodos = [
+        ...this.state.todos,
+        { id: this.state.todos.length + 1, todo: todo },
+      ];
+      this.setState({
+        todos:updatedTodos
+      })
+    };
+  
+    render() {
+      let todos = this.state.todos;
+      let deleteTodo = this.deleteTodo;
+      let addTodo = this.addTodo;
+      return (
+        <div className="App">
+          <InputBox addTodo={addTodo} ></InputBox>
+          <TodoList todos={todos} deleteTodo={deleteTodo}></TodoList>
+        </div>
+      );
+    }
+  }
 
 export default App;
